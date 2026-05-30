@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Have a Question For You... ❤️</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffe5ec 0%, #ffb3c6 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            max-width: 500px;
+            width: 90%;
+            transition: all 0.5s ease;
+        }
+        h1 {
+            color: #ff477e;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        p {
+            color: #4a4a4a;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            height: 60px;
+            position: relative;
+        }
+        .btn {
+            padding: 12px 35px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.1s ease, background-color 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        #yesBtn {
+            background-color: #ff477e;
+            color: white;
+        }
+        #yesBtn:hover {
+            background-color: #ff1f5e;
+            transform: scale(1.05);
+        }
+        #noBtn {
+            background-color: #a0a0a0;
+            color: white;
+            position: absolute;
+        }
+        .success-message {
+            display: none;
+        }
+        .heart {
+            font-size: 3rem;
+            animation: beat 0.8s infinite alternate;
+            transform-origin: center;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        @keyframes beat {
+            to { transform: scale(1.2); }
+        }
+    </style>
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+    <div class="container" id="proposalBox">
+        <div class="heart">❤️</div>
+        <!-- EDIT YOUR NAMES HERE -->
+        <h1>My Dearest,</h1> 
+        <p>From the moment you walked into my life, everything changed for the better. You are my best friend, my favorite laugh, and my home. I want to spend all my tomorrows with you.</p>
+        <h2>Will you marry me?</h2>
+        
+        <div class="buttons">
+            <button class="btn" id="yesBtn" onclick="celebrate()">YES!</button>
+            <button class="btn" id="noBtn" onmouseover="moveButton()" onclick="moveButton()">No</button>
+        </div>
+    </div>
+
+    <div class="container success-message" id="happyBox">
+        <div class="heart" style="animation-duration: 0.4s;">💖</div>
+        <h1>She Said YES! 💍</h1>
+        <p>My heart is yours forever. I can't wait to build our beautiful future together!</p>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const proposalBox = document.getElementById('proposalBox');
+        const happyBox = document.getElementById('happyBox');
+
+        // Set initial position for No button within the container layout
+        resetNoButton();
+
+        function resetNoButton() {
+            noBtn.style.left = 'calc(50% + 20px)';
+        }
+
+        function moveButton() {
+            // Get screen dimensions to safely bounce the button away
+            const padding = 20;
+            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+            // Generate random coordinates across the screen
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
+
+        function celebrate() {
+            proposalBox.style.display = 'none';
+            happyBox.style.display = 'block';
+
+            // Continuous confetti burst
+            var duration = 5 * 1000;
+            var end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 3,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0, y: 0.8 }
+                });
+                confetti({
+                    particleCount: 3,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1, y: 0.8 }
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+    </script>
+</body>
+</html>
